@@ -22,5 +22,12 @@
     "lodash": "^4.17.21",
     "path": "^0.12.7"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "2.8.7"
+  }
 }
