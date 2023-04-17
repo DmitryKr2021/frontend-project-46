@@ -34,9 +34,9 @@ program
     const resultArr = uniqArr.map((item) => {
       const sign = getSign(item, arrFile1, arrFile2);
       const [key, value] = item;
-      return ([sign + key, value]);
+      return ([sign + key, value]).join(': ');
     })
-console.log(' {','\n ', resultArr.join('\n  ').replace(/,/g, ': '), '\n','}');
+    console.log(`{\n  ${(resultArr).join('\n  ')}\n}`);
   });
 
 program.parse(process.argv);
