@@ -16,10 +16,6 @@ program
   .argument('<filepath1>', 'first configuration file')
   .argument('<filepath2>', 'second configuration file')
   .action((filepath1, filepath2, options) => {
-
-    console.log('888888', path.resolve(filepath1));
-    console.log('9999999', process.cwd());
-
     const objFile1 = JSON.parse(fs.readFileSync(filepath1));
     const objFile2 = JSON.parse(fs.readFileSync(filepath2));
     const arrFile1 = _.sortBy(Object.entries(objFile1));
@@ -44,8 +40,6 @@ program
       return [sign + key, value].join(': ');
     });
     console.log(`{\n  ${resultArr.join('\n  ')}\n}`);
-    //console.log('888888', path.resolve(filepath1));
-    //console.log('9999999', process.cwd());
   });
 
 program.parse(process.argv);
