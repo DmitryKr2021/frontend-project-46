@@ -28,8 +28,7 @@ const compare = (filepath1, filepath2, options) => {
     const [key, value] = item;
     return [sign + key, value].join(': ');
   });
-  // console.log(`{\n  ${resultArr.join('\n  ')}\n}`);
-  console.log(`{\n ${resultArr.join('\n ')}\n}`);
+  // console.log(`{\n ${resultArr.join('\n ')}\n}`);
   return (`{\n ${resultArr.join('\n ')}\n}`);
 };
 
