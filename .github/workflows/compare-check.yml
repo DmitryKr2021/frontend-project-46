@@ -9,7 +9,7 @@ jobs:
       - name: Compare check
         uses: actions/checkout@master
         with:
-          compare-id: ${{ secrets.COMPARE_ID }}
+          token: ${{ secrets.COMPARE_ID }}
       - run: make install
       - run: make lint
       - run: make test
