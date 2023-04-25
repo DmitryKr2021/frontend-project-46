@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import fs from 'fs';
 
-const compare = (filepath1, filepath2, options) => {
+const compare = (filepath1, filepath2) => {
   const objFile1 = JSON.parse(fs.readFileSync(filepath1));
   const objFile2 = JSON.parse(fs.readFileSync(filepath2));
   const arrFile1 = _.sortBy(Object.entries(objFile1));
