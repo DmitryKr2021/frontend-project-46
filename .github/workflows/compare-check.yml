@@ -5,11 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Compare check
-        uses: actions/checkout@main
-        with:
-          token: ${{ secrets.COMPARE_ID }}
       - run: make install
       - run: make lint
       - run: make test
+
+      - name: Compare-check
+       # uses: actions/checkout@master
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.COMPARE_ID }}
