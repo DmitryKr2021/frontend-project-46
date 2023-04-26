@@ -1,10 +1,16 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-console */
 import _ from 'lodash';
 import fs from 'fs';
+import path from 'path';
+import parsers from './parsers.js';
 
 const compare = (filepath1, filepath2) => {
-  const objFile1 = JSON.parse(fs.readFileSync(filepath1));
-  const objFile2 = JSON.parse(fs.readFileSync(filepath2));
+  const format = path.extname(filepath1);
+  const parse = parsers(format);
+
+  const objFile1 = parse(fs.readFileSync(filepath1, 'utf-8'));
+  const objFile2 = parse(fs.readFileSync(filepath2, 'utf-8'));
   const arrFile1 = _.sortBy(Object.entries(objFile1));
   const arrFile2 = _.sortBy(Object.entries(objFile2));
   const uniqArr = _.uniqWith([...arrFile1, ...arrFile2], _.isEqual);
@@ -28,7 +34,7 @@ const compare = (filepath1, filepath2) => {
     const [key, value] = item;
     return [sign + key, value].join(': ');
   });
-  // console.log(`{\n ${resultArr.join('\n ')}\n}`);
+  console.log(`{\n ${resultArr.join('\n ')}\n}`);
   return (`{\n ${resultArr.join('\n ')}\n}`);
 };
 
