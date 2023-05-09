@@ -4,7 +4,6 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import parsers from './parsers.js';
-import stylish from '../bin/stylish.js';
 
 const toDeepPairs = (obj) => {
   const result = Object.keys(obj).map((key) => {
@@ -93,8 +92,7 @@ const getDiff = (filepath1, filepath2) => {
   const deepPairs = toDeepPairs(res);
   const deepSort = deepSortArr(deepPairs);
   const fromSort = fromDeepPairs(deepSort);
-  // console.log(stylish(fromSort));
-  return (stylish(fromSort));
+  return (fromSort);
 };
 
 export default getDiff;

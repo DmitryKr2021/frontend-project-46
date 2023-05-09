@@ -4,6 +4,8 @@
 import { Command } from 'commander';
 import process from 'process';
 import getDiff from '../src/getdiff.js';
+import stylish from '../src/formatters/stylish.js';
+import plain from '../src/formatters/plain.js';
 
 const program = new Command();
 
@@ -14,6 +16,12 @@ program
   .option('-f, --format <type>', 'output format', 'stylish')
   .argument('<filepath1>', 'first configuration file')
   .argument('<filepath2>', 'second configuration file')
-  .action((filepath1, filepath2, options) => getDiff(filepath1, filepath2, options));
+  .action((filepath1, filepath2, options) => {
+    if (options.format === 'plain') {
+      console.log(plain(getDiff(filepath1, filepath2)));
+    } else {
+      console.log(stylish(getDiff(filepath1, filepath2)));
+    }
+  });
 
 program.parse(process.argv);
