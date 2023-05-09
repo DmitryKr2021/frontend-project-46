@@ -92,6 +92,7 @@ const getDiff = (filepath1, filepath2) => {
   const deepPairs = toDeepPairs(res);
   const deepSort = deepSortArr(deepPairs);
   const fromSort = fromDeepPairs(deepSort);
+  // console.log(fromSort);
   return (fromSort);
 };
 

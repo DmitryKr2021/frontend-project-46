@@ -6,39 +6,41 @@ const prefaces = [
   '[complex value]',
 ];
 
-let path = '';
-let level = 0;
-const paths = [];
 const expression = (data) => {
   if (data instanceof Object) { return prefaces[4]; }
   return typeof data === 'string' ? `'${data}'` : data;
 };
 const plain = (data) => {
-  const keys = Object.keys(data);
-  const result = keys.map((key, index, array) => {
-    if (key.substring(0, 1) === '-') {
-      if (key.slice(2) === array[index + 1].slice(2)) {
-        return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[3]} ${expression(data[key])} to ${expression(data[array[index + 1]])}\n`);
-      }
-      return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[2]}\n`);
-    }
-    if (key.substring(0, 1) === '+') {
-      if (!array[index - 1] || (array[index - 1] && key.slice(2) !== array[index - 1].slice(2))) {
-        return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[1]} ${expression(data[key])}\n`);
-      }
-    }
+  let path = '';
+  const paths = [];
 
-    if (data[key] instanceof Object) {
-      path += `${key.slice(2)}.`;
-      paths.push(path);
-      level += 1;
-      return (plain(data[key]));
-    }
-    return [];
-  });
-  level -= 1;
-  path = paths[level - 1] || '';
-  return result.join('');
+  const iter = (node, level) => {
+    const keys = Object.keys(node);
+    const result = keys.map((key, index, array) => {
+      if (key.substring(0, 1) === '-') {
+        if (key.slice(2) === array[index + 1].slice(2)) {
+          return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[3]} ${expression(node[key])} to ${expression(node[array[index + 1]])}\n`);
+        }
+        return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[2]}\n`);
+      }
+      if (key.substring(0, 1) === '+') {
+        if (!array[index - 1] || (array[index - 1] && key.slice(2) !== array[index - 1].slice(2))) {
+          return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[1]} ${expression(node[key])}\n`);
+        }
+      }
+
+      if (node[key] instanceof Object) {
+        path += `${key.slice(2)}.`;
+        paths.push(path);
+        return (iter(node[key], level + 1));
+      }
+      return [];
+    });
+    path = paths[level - 2] || '';
+    return result.join('');
+  };
+
+  return iter(data, 0);
 };
 
 export default plain;
