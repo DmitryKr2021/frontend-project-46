@@ -10,10 +10,10 @@ const expression = (data) => {
   if (data instanceof Object) { return prefaces[4]; }
   return typeof data === 'string' ? `'${data}'` : data;
 };
+
 const plain = (data) => {
   let path = '';
   const paths = [];
-
   const iter = (node, level) => {
     const keys = Object.keys(node);
     const result = keys.map((key, index, array) => {
@@ -28,18 +28,15 @@ const plain = (data) => {
           return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[1]} ${expression(node[key])}\n`);
         }
       }
-
       if (node[key] instanceof Object) {
         path += `${key.slice(2)}.`;
         paths.push(path);
         return (iter(node[key], level + 1));
       }
-      return [];
     });
     path = paths[level - 2] || '';
     return (result.join(''));
   };
-
   return iter(data, 0).trim();
 };
 
