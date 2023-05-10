@@ -39,8 +39,6 @@ const bubbleSort = (coll) => {
   do {
     swapped = false;
     for (let i = 0; i < stepsCount; i += 1) {
-      /* if (strNormalize(temp[i][0]) > strNormalize(temp[i + 1][0])) {
-        [temp[i], temp[i + 1]] = [temp[i + 1], temp[i]]; */
       if (strNormalize(coll[i][0]) > strNormalize(coll[i + 1][0])) {
         [coll[i], coll[i + 1]] = [coll[i + 1], coll[i]];
         swapped = true;
@@ -48,7 +46,6 @@ const bubbleSort = (coll) => {
     }
     stepsCount -= 1;
   } while (swapped);
-  // return temp;
   return coll;
 };
 
@@ -69,10 +66,9 @@ const compare = (obj1, obj2) => {
     Object.keys(o1).map((key) => {
       if (o1[key] instanceof Object && o2[key] instanceof Object) {
         result[`  ${key}`] = compare(obj1[key], obj2[key]);
-      } else if (o1[key] === o2[key]) {
-        result[`  ${key}`] = o1[key];
       } else {
-        result[`${sign} ${key}`] = o1[key];
+        const s = o1[key] === o2[key] ? ' ' : sign;
+        result[`${s} ${key}`] = o1[key];
       }
     });
   };
