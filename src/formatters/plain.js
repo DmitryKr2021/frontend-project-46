@@ -17,7 +17,8 @@ const plain = (data) => {
   const iter = (node, level) => {
     const keys = Object.keys(node);
     const result = keys.map((key, index, array) => {
-      if (key.substring(0, 1) === '-') {
+      
+      /* if (key.substring(0, 1) === '-') {
         if (key.slice(2) === array[index + 1].slice(2)) {
           return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[3]} ${expression(node[key])} to ${expression(node[array[index + 1]])}\n`);
         }
@@ -27,7 +28,20 @@ const plain = (data) => {
         if (!array[index - 1] || (array[index - 1] && key.slice(2) !== array[index - 1].slice(2))) {
           return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[1]} ${expression(node[key])}\n`);
         }
+      } */
+
+      if (key.substring(0, 1) === '-') {
+        if (key.slice(2) === array[index + 1].slice(2)) {
+          return (`Property '${path}${key.slice(2)}' was updated. From ${expression(node[key])} to ${expression(node[array[index + 1]])}\n`);
+        }
+        return (`Property '${path}${key.slice(2)}' was removed\n`);
       }
+      if (key.substring(0, 1) === '+') {
+        if (!array[index - 1] || (array[index - 1] && key.slice(2) !== array[index - 1].slice(2))) {
+          return (`Property '${path}${key.slice(2)}' was added with value: ${expression(node[key])}\n`);
+        }
+      }
+
       if (node[key] instanceof Object) {
         path += `${key.slice(2)}.`;
         paths.push(path);
