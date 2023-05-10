@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable import/extensions */
 /* eslint-disable no-console */
 import _ from 'lodash';
@@ -60,21 +61,26 @@ const deepSortArr = (arr) => {
 };
 
 const compare = (obj1, obj2) => {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  const keys = _.union(keys1, keys2);
+
   const result = {};
+  for (const key of keys) {
+    if (obj1[key] instanceof Object && obj2[key] instanceof Object) {
+      result[`  ${key}`] = compare(obj1[key], obj2[key]);
+    } else if (!Object.hasOwn(obj1, key)) {
+      result[`+ ${key}`] = obj2[key];
+    } else if (!Object.hasOwn(obj2, key)) {
+      result[`- ${key}`] = obj1[key];
+    } else if (obj1[key] !== obj2[key]) {
+      result[`- ${key}`] = obj1[key];
+      result[`+ ${key}`] = obj2[key];
+    } else {
+      result[`  ${key}`] = obj1[key];
+    }
+  }
 
-  const toCompare = (o1, o2, sign) => {
-    Object.keys(o1).map((key) => {
-      if (o1[key] instanceof Object && o2[key] instanceof Object) {
-        result[`  ${key}`] = compare(obj1[key], obj2[key]);
-      } else {
-        const s = o1[key] === o2[key] ? ' ' : sign;
-        result[`${s} ${key}`] = o1[key];
-      }
-    });
-  };
-
-  toCompare(obj1, obj2, '-');
-  toCompare(obj2, obj1, '+');
   return result;
 };
 
@@ -88,7 +94,6 @@ const getDiff = (filepath1, filepath2) => {
   const deepPairs = toDeepPairs(res);
   const deepSort = deepSortArr(deepPairs);
   const fromSort = fromDeepPairs(deepSort);
-  // console.log(fromSort);
   return (fromSort);
 };
 
