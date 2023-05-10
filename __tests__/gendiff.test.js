@@ -4,9 +4,7 @@ import { test, expect } from '@jest/globals';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import getDiff from '../src/getdiff.js';
-import stylish from '../src/formatters/stylish.js';
-import plain from '../src/formatters/plain.js';
+import genDiff from '../src/formatters/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,7 +15,6 @@ const f11f21 = fs.readFileSync(getFixturePath('f11f21.txt'), 'utf-8');
 const f11f21plain = fs.readFileSync(getFixturePath('f11f21plain.txt'), 'utf-8');
 
 test('compare', () => {
-  expect(stylish(getDiff(f11, f21))).toEqual(f11f21);
-  console.log(plain(getDiff(f11, f21)));
-  expect(plain(getDiff(f11, f21))).toEqual(f11f21plain);
+  expect(genDiff(f11, f21)).toEqual(f11f21);
+  expect(genDiff(f11, f21, 'plain')).toEqual(f11f21plain);
 });

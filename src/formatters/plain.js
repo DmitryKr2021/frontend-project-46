@@ -37,10 +37,10 @@ const plain = (data) => {
       return [];
     });
     path = paths[level - 2] || '';
-    return result.join('');
+    return (result.join(''));
   };
 
-  return iter(data, 0);
+  return iter(data, 0).trim();
 };
 
 export default plain;

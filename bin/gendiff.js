@@ -3,9 +3,7 @@
 /* eslint-disable no-console */
 import { Command } from 'commander';
 import process from 'process';
-import getDiff from '../src/getdiff.js';
-import stylish from '../src/formatters/stylish.js';
-import plain from '../src/formatters/plain.js';
+import genDiff from '../src/formatters/index.js';
 
 const program = new Command();
 
@@ -17,11 +15,7 @@ program
   .argument('<filepath1>', 'first configuration file')
   .argument('<filepath2>', 'second configuration file')
   .action((filepath1, filepath2, options) => {
-    if (options.format === 'plain') {
-      console.log(plain(getDiff(filepath1, filepath2)));
-    } else {
-      console.log(stylish(getDiff(filepath1, filepath2)));
-    }
+    genDiff(filepath1, filepath2, options.format);
   });
 
 program.parse(process.argv);

@@ -1,11 +1,14 @@
 /* eslint-disable import/extensions */
 import stylish from './stylish.js';
 import plain from './plain.js';
-// import gendiff from '../../bin/gendiff.js';
+import getDiff from '../getdiff.js';
 
-const filepath1 = 'D:/Programming/Hexlet/Project2/frontend-project-46/__fixtures__/file11.yml';
-const filepath2 = 'D:/Programming/Hexlet/Project2/frontend-project-46/__fixtures__/file21.yml';
-const formatName = stylish;
-
-const diff = gendiff(filepath1, filepath2, formatName);
-console.log(diff);
+const genDiff = (filepath1, filepath2, formatName) => {
+  if (formatName === 'plain') {
+    console.log(plain(getDiff(filepath1, filepath2)));
+    return (plain(getDiff(filepath1, filepath2)));
+  }
+  console.log(stylish(getDiff(filepath1, filepath2)));
+  return (stylish(getDiff(filepath1, filepath2)));
+};
+export default genDiff;
