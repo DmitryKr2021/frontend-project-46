@@ -10,3 +10,4 @@
 ![image](https://user-images.githubusercontent.com/79040401/234498768-7ea97042-c927-409b-9620-e5de5d13d39f.png)
 ![image](https://user-images.githubusercontent.com/79040401/236609273-5c1ada80-4adb-4f71-8714-2df72b12f86a.png)
 ![image](https://user-images.githubusercontent.com/79040401/237030975-a1c234a6-9cee-455e-b377-88c19576efff.png)
+![image](https://github.com/DmitryKr2021/frontend-project-46/assets/79040401/7a8b8569-b240-40e2-94bc-d0198a305ece)
