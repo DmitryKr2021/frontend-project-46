@@ -13,8 +13,10 @@ const f11 = getFixturePath('file11.json');
 const f21 = getFixturePath('file21.json');
 const f11f21 = fs.readFileSync(getFixturePath('f11f21.txt'), 'utf-8');
 const f11f21plain = fs.readFileSync(getFixturePath('f11f21plain.txt'), 'utf-8');
+const f11f21json = fs.readFileSync(getFixturePath('f11f21json.txt'), 'utf-8');
 
 test('compare', () => {
   expect(genDiff(f11, f21)).toEqual(f11f21);
   expect(genDiff(f11, f21, 'plain')).toEqual(f11f21plain);
+  expect(genDiff(f11, f21, 'json')).toEqual(f11f21json);
 });
