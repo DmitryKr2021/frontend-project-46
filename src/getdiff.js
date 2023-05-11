@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/extensions */
 /* eslint-disable no-console */
@@ -23,6 +24,7 @@ const fromDeepPairs = (arr) => {
     if (Array.isArray(result[key])) {
       result[key] = fromDeepPairs(result[key]);
     }
+    return result;
   });
   return result;
 };

@@ -17,6 +17,7 @@ const stylish = (data, replacer = ' ', spacesCount = 4) => {
       space = replacer.repeat(spaceNormalize(key));
       result = `${result}\n${space}${key}: ${stylish(data[key])}`;
       level -= 1;
+      return result;
     });
     return `{${result}\n${replacer.repeat(level * spacesCount)}}`;
   }
