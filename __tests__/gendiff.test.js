@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/extensions */
 import { test, expect } from '@jest/globals';
 import path from 'path';
 import fs from 'fs';
@@ -9,14 +7,15 @@ import genDiff from '../src/formatters/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const f11 = getFixturePath('file11.json');
-const f21 = getFixturePath('file21.json');
-const f11f21 = fs.readFileSync(getFixturePath('f11f21.txt'), 'utf-8');
-const f11f21plain = fs.readFileSync(getFixturePath('f11f21plain.txt'), 'utf-8');
-const f11f21json = fs.readFileSync(getFixturePath('f11f21json.txt'), 'utf-8');
+const file1 = getFixturePath('file11.json');
+const file2 = getFixturePath('file21.json');
+const difFile1File2Txt = fs.readFileSync(getFixturePath('f11f21.txt'), 'utf-8');
+const difFile1File2Plain = fs.readFileSync(getFixturePath('f11f21plain.txt'), 'utf-8');
+const difFile1File2Json = fs.readFileSync(getFixturePath('f11f21json.txt'), 'utf-8');
 
-test('compare', () => {
-  expect(genDiff(f11, f21)).toEqual(f11f21);
-  expect(genDiff(f11, f21, 'plain')).toEqual(f11f21plain);
-  expect(genDiff(f11, f21, 'json')).toEqual(f11f21json);
+test.each([
+  {file1, file2, format: '', expected: difFile1File2Txt},
+  {file1, file2, format: 'plain', expected: difFile1File2Plain},
+  {file1, file2, format: 'json', expected: difFile1File2Json},
+])('compare', ({file1, file2, format, expected}) => {expect(genDiff(file1, file2, format)).toBe(expected);
 });

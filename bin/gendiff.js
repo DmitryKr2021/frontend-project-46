@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable import/extensions */
-/* eslint-disable no-console */
 import { Command } from 'commander';
 import process from 'process';
 import genDiff from '../src/formatters/index.js';
@@ -15,7 +13,7 @@ program
   .argument('<filepath1>', 'first configuration file')
   .argument('<filepath2>', 'second configuration file')
   .action((filepath1, filepath2, options) => {
-    genDiff(filepath1, filepath2, options.format);
+    console.log(genDiff(filepath1, filepath2, options.format));
   });
 
 program.parse(process.argv);

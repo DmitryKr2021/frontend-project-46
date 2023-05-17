@@ -1,5 +1,4 @@
 env:
-  browser: true
   es2021: true
   node: true
 extends: airbnb-base
@@ -9,4 +8,6 @@ parserOptions:
   sourceType: module
 plugins:
   - "jest"  
-rules: {}
+rules: {
+  import/extensions: ignorePackages
+}
