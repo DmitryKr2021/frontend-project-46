@@ -9,5 +9,5 @@ parserOptions:
 plugins:
   - "jest"  
 rules: {
-  import/extensions: ignorePackages
+  import/extensions: 0
 }
