@@ -14,8 +14,17 @@ const difFile1File2Plain = fs.readFileSync(getFixturePath('f11f21plain.txt'), 'u
 const difFile1File2Json = fs.readFileSync(getFixturePath('f11f21json.txt'), 'utf-8');
 
 test.each([
-  {file1, file2, format: '', expected: difFile1File2Txt},
-  {file1, file2, format: 'plain', expected: difFile1File2Plain},
-  {file1, file2, format: 'json', expected: difFile1File2Json},
-])('compare', ({file1, file2, format, expected}) => {expect(genDiff(file1, file2, format)).toBe(expected);
+  {
+    file1, file2, format: '', expected: difFile1File2Txt,
+  },
+  {
+    file1, file2, format: 'plain', expected: difFile1File2Plain,
+  },
+  {
+    file1, file2, format: 'json', expected: difFile1File2Json,
+  },
+])('compare', ({
+  format, expected,
+}) => {
+  expect(genDiff(file1, file2, format)).toBe(expected);
 });

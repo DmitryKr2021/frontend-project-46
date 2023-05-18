@@ -89,7 +89,6 @@ const getDiff = (filepath1, filepath2) => {
   const objFile2 = parse(fs.readFileSync(filepath2, 'utf-8'));
 
   const res = compare(objFile1, objFile2);
-  console.log(res);
   const deepPairs = toDeepPairs(res);
   const deepSort = deepSortArr(deepPairs);
   const fromSort = fromDeepPairs(deepSort);
