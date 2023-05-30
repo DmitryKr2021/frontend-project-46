@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const prefaces = [
   'Property',
   'was added with value:',
@@ -11,36 +13,46 @@ const expression = (data) => {
   return typeof data === 'string' ? `'${data}'` : data;
 };
 
-const plain = (data) => {
-  let path = '';
-  const paths = [];
-  const iter = (node, level) => {
-    const keys = Object.keys(node);
+const pathToNode = (localPath, localData) => {
+  const prefix = (localPath.slice(0, 1) === '.' ? `${localPath.slice(1)}.` : '');
+  return `${prefix}${_.toPairs(localData).flat()[0]}`;
+};
 
-    const result = keys.map((key, index, array) => {
-      if (key.substring(0, 1) === '-') {
-        if (key.slice(2) === array[index + 1].slice(2)) {
-          return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[3]} ${expression(node[key])} to ${expression(node[array[index + 1]])}\n`);
-        }
-        return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[2]}\n`);
+const plain = (dataDif) => {
+  let pathUpdate;
+  let removed;
+  const inner = (data, path = '') => {
+    let res = '';
+    if (Array.isArray(data)) {
+      data.forEach((item) => { res += inner(item, path); });
+    } else {
+      if (data.dif === '- ') {
+        [removed] = Object.values(data);
+        pathUpdate = pathToNode(path, data);
+        return (`${prefaces[0]} '${pathToNode(path, data)}' ${prefaces[2]}\n`);
       }
-      if (key.substring(0, 1) === '+') {
-        if (!array[index - 1] || (array[index - 1] && key.slice(2) !== array[index - 1].slice(2))) {
-          return (`${prefaces[0]} '${path}${key.slice(2)}' ${prefaces[1]} ${expression(node[key])}\n`);
-        }
+      if (data.dif === '+ ') {
+        const isUpdate = pathToNode(path, data) === pathUpdate;
+        return isUpdate ? `${prefaces[0]} '${pathToNode(path, data)}' ${prefaces[3]} ${expression(removed)} to ${expression(Object.values(data)[0])}\n` : `${prefaces[0]} '${pathToNode(path, data)}' ${prefaces[1]} ${expression(Object.values(data)[0])}\n`;
       }
-      if (node[key] instanceof Object) {
-        path += `${key.slice(2)}.`;
-        paths.push(path);
-        return (iter(node[key], level + 1));
+      if (data.dif === '  ') {
+        const [key] = Object.keys(data);
+        return (inner(data[key], `${path}.${key}`));
       }
-      return [];
-    });
-
-    path = paths[level - 2] || '';
-    return (result.join(''));
+    }
+    return res;
   };
-  return iter(data, 0).trim();
+  return inner(dataDif)
+    .split('\n')
+    .filter((elem, index, array) => {
+      if (array[index + 1]) {
+        const pos1 = elem.indexOf("'");
+        const pos2 = elem.indexOf("'", pos1 + 1);
+        return elem.slice(0, pos2) !== array[index + 1].slice(0, pos2);
+      }
+      return elem;
+    })
+    .join('\n');
 };
 
 export default plain;
