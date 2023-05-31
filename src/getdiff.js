@@ -25,9 +25,7 @@ const compare = (obj1, obj2) => {
     }
     return { [key]: obj1[key], dif: '  ' };
   });
-  // return result.sort(sortArr);
-  const mapped = result.map((item) => item);
-  return mapped.sort(sortArr);
+  return result.sort(sortArr);
 };
 
 const getDiff = (filepath1, filepath2) => {
