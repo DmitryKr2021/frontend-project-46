@@ -1,28 +1,37 @@
-const stylish = (data_, replacer_ = ' ', spacesCount_ = 4) => {
-  let level = 0;
-  const inner = (data, replacer = ' ', spacesCount = 4) => {
-    level += 1;
-    const space = (levels, sign = 0) => replacer.repeat(levels * spacesCount - sign * 2);
-    if (Array.isArray(data)) {
-      const res = (data.reduce((acc, item) => {
-        const entries = Object.entries(item).flat();
-        if (typeof entries[1] === 'object' && entries[1] !== null) { return `${acc}\n${space(level, 1)}${item.dif}${entries[0]}: {${inner(entries[1])}\n${space(level)}}`; }
-        return `${acc}\n${space(level, 1)}${item.dif}${entries[0]}: ${inner(entries[1])}`;
-      }, ''));
-      level -= 1;
-      return (level < 1 ? `{${res}\n}` : `${res}`);
-    }
-
-    if (typeof (data) === 'object' && data !== null) {
-      const keys = Object.keys(data);
-      const str = keys.map((key) => (typeof data[key] === 'object' ? `${''}\n${space(level)}${key}: {${inner(data[key])}\n${space(level)}}` : `\n${space(level)}${key}: ${inner(data[key])}`));
-
-      level -= 1;
-      return str.join('');
-    }
-    level -= 1;
-    return `${data}`;
+const stylish = (data, replacer = '.', spacesCount = 4) => {
+  const signs = {
+    added: '+ ',
+    deleted: '- ',
+    unchanged: '  ',
+    changed: '- ',
   };
-  return inner(data_, replacer_, spacesCount_);
+  const inner = (data_, level) => {
+    const space = (levels, number = 0) => replacer.repeat(levels * spacesCount - number * 2);
+
+    const format = (key) => {
+      const arrayData = data_[key];
+
+      if (typeof arrayData[1] === 'object') {
+        // console.log('dataKey1=', arrayData[1]);
+        // const { innerKey, innerValue } = Object.entries(arrayData[1]);
+        // console.log(Object.entries(arrayData[1]));
+      }
+
+      const result = typeof arrayData[1] === 'object'
+        // ? `${signs[dataKey[0]]}${key}: ${Object.values((dataKey)[1])}`
+        ? `${signs[arrayData[0]]}${key}: ${Object.entries(arrayData[1])}`
+        : `${signs[arrayData[0]]}${key}: ${arrayData[1]}`;
+      return (arrayData[0] !== 'changed' ? `${result}` : `${result}\n${space(level, 1)}${signs.added}${key}: ${arrayData[2]}`);
+    };
+
+    const keys = Object.keys(data_);
+    const arr = keys.map((key) => (Array.isArray(data_[key])
+      ? `\n${space(level, 1)}${format(key)}`
+      : `${''}\n${space(level)}${key}: {${inner(data_[key], level + 1)}\n${space(level)}}`));
+
+    return arr.join('');
+  };
+
+  return inner(data, 1);
 };
 export default stylish;
