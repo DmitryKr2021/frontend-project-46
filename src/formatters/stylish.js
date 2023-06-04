@@ -9,7 +9,7 @@ const stylish = (data, replacer = ' ', spacesCount = 4) => {
     const space = (levels, number = 0) => replacer.repeat(levels * spacesCount - number * 2);
 
     const isObject = (obj, objLevel) => {
-      if (!(obj instanceof Object)) { return obj; }
+      if (!(obj instanceof Object) || obj === null) { return obj; }
       const entries = Object.entries(obj);
       const str = entries.reduce((acc, entry) => `${acc}\n${space(objLevel + 1)}${entry[0]}: ${isObject(entry[1], objLevel + 1)}`, '');
       return `{${str}\n${space(objLevel)}}`;
