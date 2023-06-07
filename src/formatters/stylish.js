@@ -1,4 +1,4 @@
-const space = (levels, number = 0, replacer = ' ', spacesCount = 4) => replacer.repeat(levels * spacesCount - number * 2);
+const space = (levels, gapCount = 0, replacer = ' ', spacesCount = 4) => replacer.repeat(levels * spacesCount - gapCount * 2);
 
 const stringify = (obj, objLevel) => {
   if (!(obj instanceof Object)) { return obj; }
