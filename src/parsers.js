@@ -1,13 +1,13 @@
 import yaml from 'js-yaml';
+import path from 'path';
+import fs from 'fs';
 
-const parsers = (format) => {
-  if (format === '.ini') {
-    // return ini.parse;
-  }
+const parsers = (file) => {
+  const format = path.extname(file);
   if (format === '.yml' || format === '.yaml') {
-    return yaml.load;
+    return yaml.load(fs.readFileSync(file, 'utf-8'));
   }
-  return JSON.parse;
+  return JSON.parse(fs.readFileSync(file, 'utf-8'));
 };
 
 export default parsers;

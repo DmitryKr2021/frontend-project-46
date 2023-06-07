@@ -1,13 +1,5 @@
-const prefaces = [
-  'Property',
-  'was added with value:',
-  'was removed',
-  'was updated. From',
-  '[complex value]',
-];
-
-const expression = (data) => {
-  if (data instanceof Object) { return prefaces[4]; }
+const stringify = (data) => {
+  if (data instanceof Object) { return '[complex value]'; }
   return typeof data === 'string' ? `'${data}'` : data;
 };
 
@@ -15,20 +7,14 @@ const plain = (dataDif) => {
   const inner = (data, path = '') => {
     const res = data.reduce((acc, item) => {
       const pathPoint = path === '' ? '' : `${path}.`;
-      if (item.type === 'nested') {
-        const newPath = `${pathPoint}${item.key}`;
-        return `${acc}${inner(item.children, newPath)}`;
+      switch (item.type) {
+        case 'added': return `${acc}Property '${pathPoint}${item.key}' was added with value: ${stringify(item.value2)}\n`;
+        case 'deleted': return `${acc}Property '${pathPoint}${item.key}' was removed\n`;
+        case 'changed': return `${acc}Property '${pathPoint}${item.key}' was updated. From ${stringify(item.value1)} to ${stringify(item.value2)}\n`;
+        case 'nested': { const newPath = `${pathPoint}${item.key}`;
+          return `${acc}${inner(item.children, newPath)}`; }
+        default: return acc;
       }
-      if (item.type === 'added') {
-        return `${acc}${prefaces[0]} '${pathPoint}${item.key}' ${prefaces[1]} ${expression(item.value)}\n`;
-      }
-      if (item.type === 'deleted') {
-        return `${acc}${prefaces[0]} '${pathPoint}${item.key}' ${prefaces[2]}\n`;
-      }
-      if (item.type === 'changed') {
-        return `${acc}${prefaces[0]} '${pathPoint}${item.key}' ${prefaces[3]} ${expression(item.value)} to ${expression(item.newValue)}\n`;
-      }
-      return acc;
     }, '');
     return res;
   };
