@@ -4,7 +4,7 @@ const stringify = (data) => {
 };
 
 const plain = (dataDif) => {
-  const inner = (data, path = '') => {
+  /*const inner = (data, path = '') => {
     const res = data.reduce((acc, item) => {
       const pathPoint = path === '' ? '' : `${path}.`;
       switch (item.type) {
@@ -17,7 +17,24 @@ const plain = (dataDif) => {
       }
     }, '');
     return res;
+  };*/
+
+  const inner = (data, path = '') => {
+    const res = data.map((item) => {
+      const pathPoint = path === '' ? '' : `${path}.`;
+      switch (item.type) {
+        case 'added': return `Property '${pathPoint}${item.key}' was added with value: ${stringify(item.value2)}`;
+        case 'deleted': return `Property '${pathPoint}${item.key}' was removed`;
+        case 'changed': return `Property '${pathPoint}${item.key}' was updated. From ${stringify(item.value1)} to ${stringify(item.value2)}`;
+        case 'nested': { const newPath = `${pathPoint}${item.key}`;
+          return `${inner(item.children, newPath)}`; }
+        default: break;
+      }
+    }, '');
+    console.log('res=', res);
+    return res.join('\n');
   };
+
   return inner(dataDif).trim();
 };
 

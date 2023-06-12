@@ -1,5 +1,7 @@
 import _ from 'lodash';
-import parsers from './parsers.js';
+import path from 'path';
+import fs from 'fs';
+import chooseParser from './parsers.js';
 
 const compare = (data1, data2) => {
   const keys1 = Object.keys(data1);
@@ -16,7 +18,7 @@ const compare = (data1, data2) => {
     if (!Object.hasOwn(data2, key)) {
       return { key, type: 'deleted', value1: data1[key] };
     }
-    if (data1[key] !== data2[key]) {
+    if (!_.isEqual(data1[key], data2[key])) {
       return {
         key, type: 'changed', value1: data1[key], value2: data2[key],
       };
@@ -27,6 +29,10 @@ const compare = (data1, data2) => {
   return result;
 };
 
-const getDiff = (filepath1, filepath2) => compare(parsers(filepath1), parsers(filepath2));
+const getData = (filePath) => [fs.readFileSync(filePath, 'utf-8'), path.extname(filePath)];
+
+const parseData = (data) => chooseParser(data);
+
+const getDiff = (file1, file2) => compare(parseData(getData(file1)), parseData(getData(file2)));
 
 export default getDiff;

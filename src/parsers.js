@@ -1,13 +1,10 @@
 import yaml from 'js-yaml';
-import path from 'path';
-import fs from 'fs';
 
-const parsers = (file) => {
-  const format = path.extname(file);
+const chooseParser = ([fileContent, format]) => {
   if (format === '.yml' || format === '.yaml') {
-    return yaml.load(fs.readFileSync(file, 'utf-8'));
+    return yaml.load(fileContent);
   }
-  return JSON.parse(fs.readFileSync(file, 'utf-8'));
+  return JSON.parse(fileContent);
 };
 
-export default parsers;
+export default chooseParser;
