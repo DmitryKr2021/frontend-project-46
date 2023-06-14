@@ -14,22 +14,22 @@ const ymlDif = getDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'))
 
 test.each([
   {
-    jsonDif, format: undefined, expected: fs.readFileSync(getFixturePath('resultStylish.txt'), 'utf-8'),
+    format: undefined, expected: fs.readFileSync(getFixturePath('resultStylish.txt'), 'utf-8'),
   },
   {
-    jsonDif, format: 'plain', expected: fs.readFileSync(getFixturePath('resultPlain.txt'), 'utf-8'),
+    format: 'plain', expected: fs.readFileSync(getFixturePath('resultPlain.txt'), 'utf-8'),
   },
   {
-    jsonDif, format: 'json', expected: fs.readFileSync(getFixturePath('resultJson.txt'), 'utf-8'),
+    format: 'json', expected: fs.readFileSync(getFixturePath('resultJson.txt'), 'utf-8'),
   },
   {
-    ymlDif, format: undefined, expected: fs.readFileSync(getFixturePath('resultStylish.txt'), 'utf-8'),
+    format: undefined, expected: fs.readFileSync(getFixturePath('resultStylish.txt'), 'utf-8'),
   },
   {
-    ymlDif, format: 'plain', expected: fs.readFileSync(getFixturePath('resultPlain.txt'), 'utf-8'),
+    format: 'plain', expected: fs.readFileSync(getFixturePath('resultPlain.txt'), 'utf-8'),
   },
   {
-    ymlDif, format: 'json', expected: fs.readFileSync(getFixturePath('resultJson.txt'), 'utf-8'),
+    format: 'json', expected: fs.readFileSync(getFixturePath('resultJson.txt'), 'utf-8'),
   },
 ])('compare', ({
   format, expected,
