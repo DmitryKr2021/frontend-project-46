@@ -11,25 +11,26 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 
 const jsonDif = getDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
 const ymlDif = getDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'));
+const resultExpected = (fileName) => fs.readFileSync(getFixturePath(fileName), 'utf-8');
 
 test.each([
   {
-    format: undefined, expected: fs.readFileSync(getFixturePath('resultStylish.txt'), 'utf-8'),
+    format: undefined, expected: resultExpected('resultStylish.txt'),
   },
   {
-    format: 'plain', expected: fs.readFileSync(getFixturePath('resultPlain.txt'), 'utf-8'),
+    format: 'plain', expected: resultExpected('resultPlain.txt'),
   },
   {
-    format: 'json', expected: fs.readFileSync(getFixturePath('resultJson.txt'), 'utf-8'),
+    format: 'json', expected: resultExpected('resultJson.txt'),
   },
   {
-    format: undefined, expected: fs.readFileSync(getFixturePath('resultStylish.txt'), 'utf-8'),
+    format: undefined, expected: resultExpected('resultStylish.txt'),
   },
   {
-    format: 'plain', expected: fs.readFileSync(getFixturePath('resultPlain.txt'), 'utf-8'),
+    format: 'plain', expected: resultExpected('resultPlain.txt'),
   },
   {
-    format: 'json', expected: fs.readFileSync(getFixturePath('resultJson.txt'), 'utf-8'),
+    format: 'json', expected: resultExpected('resultJson.txt'),
   },
 ])('compare', ({
   format, expected,
