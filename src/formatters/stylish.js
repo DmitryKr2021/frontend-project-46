@@ -15,9 +15,8 @@ const stylish = (inputData) => {
         case 'added': return `${space(nextDepth, 1)}+ ${item.key}: ${stringify(item.value2, nextDepth)}`;
         case 'deleted': return `${space(nextDepth, 1)}- ${item.key}: ${stringify(item.value1, nextDepth)}`;
         case 'changed': return `${space(nextDepth, 1)}- ${item.key}: ${stringify(item.value1, nextDepth)}\n${space(nextDepth, 1)}+ ${item.key}: ${stringify(item.value2, nextDepth)}`;
-        case 'unchanged': return `${space(nextDepth, 1)}  ${item.key}: ${stringify(item.value1, nextDepth)}`;
         case 'nested': return `${space(nextDepth)}${item.key}: {\n${inner(item.children, nextDepth)}\n${space(nextDepth)}}`;
-        default: return '';
+        default: return `${space(nextDepth, 1)}  ${item.key}: ${stringify(item.value1, nextDepth)}`;
       }
     });
     return arr.join('\n');
