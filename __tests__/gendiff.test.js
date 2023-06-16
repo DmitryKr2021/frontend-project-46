@@ -11,7 +11,7 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 
 /*const jsonDif = getDiff(getFixturePath('file1.json'), getFixturePath('file2.json'));
 const ymlDif = getDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'));*/
-const resultExpected = (fileName) => fs.readFileSync(getFixturePath(fileName), 'utf-8');
+const resultExpected = (fileName) => fs.readFileSync(getFixturePath(fileName), 'utf-8').trim();
 
 test.each([
   {

@@ -18,7 +18,8 @@ const plain = (dataDif) => {
     }, '');
     return result.filter((item) => item).join('\n');
   };
-  return `${inner(dataDif).trim()}\n`;
+  // return `${inner(dataDif).trim()}\n`;
+  return `${inner(dataDif).trim()}`;
 };
 
 export default plain;
