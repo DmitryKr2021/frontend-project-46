@@ -9,17 +9,20 @@ const stringify = (obj, objDepth) => {
 
 const stylish = (inputData) => {
   const inner = (data, depth) => {
-    const arr = data.map((item) => {
-      const nextDepth = depth + 1;
-      switch (item.type) {
-        case 'added': return `${space(nextDepth, 1)}+ ${item.key}: ${stringify(item.value2, nextDepth)}`;
-        case 'deleted': return `${space(nextDepth, 1)}- ${item.key}: ${stringify(item.value1, nextDepth)}`;
-        case 'changed': return `${space(nextDepth, 1)}- ${item.key}: ${stringify(item.value1, nextDepth)}\n${space(nextDepth, 1)}+ ${item.key}: ${stringify(item.value2, nextDepth)}`;
-        case 'nested': return `${space(nextDepth)}${item.key}: {\n${inner(item.children, nextDepth)}\n${space(nextDepth)}}`;
-        default: return `${space(nextDepth, 1)}  ${item.key}: ${stringify(item.value1, nextDepth)}`;
-      }
-    });
-    return arr.join('\n');
+    if (Array.isArray(data)) {
+      const arr = data.map((item) => {
+        const nextDepth = depth + 1;
+        switch (item.type) {
+          case 'added': return `${space(nextDepth, 1)}+ ${item.key}: ${stringify(item.value2, nextDepth)}`;
+          case 'deleted': return `${space(nextDepth, 1)}- ${item.key}: ${stringify(item.value1, nextDepth)}`;
+          case 'changed': return `${space(nextDepth, 1)}- ${item.key}: ${stringify(item.value1, nextDepth)}\n${space(nextDepth, 1)}+ ${item.key}: ${stringify(item.value2, nextDepth)}`;
+          case 'nested': return `${space(nextDepth)}${item.key}: {\n${inner(item.children, nextDepth)}\n${space(nextDepth)}}`;
+          default: return `${space(nextDepth, 1)}  ${item.key}: ${stringify(item.value1, nextDepth)}`;
+        }
+      });
+      return arr.join('\n');
+    }
+    return null;
   };
   return `{\n${inner(inputData, 0)}\n}\n`;
 };
