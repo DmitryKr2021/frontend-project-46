@@ -21,6 +21,6 @@ const stylish = (inputData) => {
     });
     return arr.join('\n');
   };
-  return `{\n${inner(inputData, 0)}\n}`;
+  return `{\n${inner(inputData, 0)}\n}\n`;
 };
 export default stylish;
