@@ -29,7 +29,8 @@ const compare = (data1, data2) => {
   return result;
 };
 
-const getData = (filePath) => [fs.readFileSync(filePath, 'utf-8'), path.extname(filePath)];
+// const getData = (filePath) => [fs.readFileSync(filePath, 'utf-8'), path.extname(filePath)];
+const getData = (filePath) => [fs.readFileSync(filePath, 'utf-8').trim(), path.extname(filePath)];
 
 const parseData = (data) => chooseParser(data);
 
