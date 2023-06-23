@@ -3,7 +3,7 @@ const space = (depths, replacer = ' ', spacesCount = 4) => replacer.repeat(depth
 const stringify = (obj, objDepth) => {
   if (!(obj instanceof Object)) { return obj; }
   const entries = Object.entries(obj);
-  const str = entries.map((entry) => `\n${space(objDepth + 1)}${entry[0]}: ${stringify(entry[1], objDepth + 1)}`).join('');
+  const str = entries.map(([key, value]) => `\n${space(objDepth + 1)}${key}: ${stringify(value, objDepth + 1)}`).join('');
   return `{${str}\n${space(objDepth)}}`;
 };
 
