@@ -36,6 +36,9 @@ const getData = (filePath) => {
   return parse(fileContent, fileExtName);
 };
 
-const getDiff = (file1, file2, format) => genDiff(compare(getData(file1), getData(file2)), format);
+const getDiff = (file1, file2, format) => {
+  console.log(genDiff(compare(getData(file1), getData(file2)), format));
+  return (genDiff(compare(getData(file1), getData(file2)), format));
+};
 
 export default getDiff;
