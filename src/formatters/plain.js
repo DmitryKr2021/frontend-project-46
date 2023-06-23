@@ -8,7 +8,7 @@ const plain = (dataDif) => {
     const pathPoint = path === '' ? '' : `${path}.`;
     const result = data.map((item) => {
       switch (item.type) {
-        case 'added': return `Property '${pathPoint}${item.key}' was added with value: ${stringify(item.value2)}`;
+        case 'added': return `Property '${pathPoint}${item.key}' was added with value: ${stringify(item.value)}`;
         case 'deleted': return `Property '${pathPoint}${item.key}' was removed`;
         case 'changed': return `Property '${pathPoint}${item.key}' was updated. From ${stringify(item.value1)} to ${stringify(item.value2)}`;
         case 'nested': { const newPath = `${pathPoint}${item.key}`;
