@@ -13,7 +13,8 @@ program
   .argument('<filepath1>', 'first configuration file')
   .argument('<filepath2>', 'second configuration file')
   .action((filepath1, filepath2, options) => {
-    getDiff(filepath1, filepath2, options.format);
+    const result = getDiff(filepath1, filepath2, options.format);
+    console.log(result);
   });
 
 program.parse(process.argv);

@@ -13,7 +13,8 @@ const plain = (dataDif) => {
         case 'changed': return `Property '${pathPoint}${item.key}' was updated. From ${stringify(item.value1)} to ${stringify(item.value2)}`;
         case 'nested': { const newPath = `${pathPoint}${item.key}`;
           return `${inner(item.children, newPath)}`; }
-        default: return null;
+        case 'unchanged': return null;
+        default: throw new Error(`Unknown item type: '${item.type}'!`);
       }
     }, '');
     return result.filter((item) => item).join('\n');

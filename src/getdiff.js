@@ -2,7 +2,7 @@ import _ from 'lodash';
 import path from 'path';
 import fs from 'fs';
 import parse from './parsers.js';
-import genDiff from './formatters/index.js';
+import ast from './formatters/index.js';
 
 const compare = (data1, data2) => {
   const keys1 = Object.keys(data1);
@@ -36,9 +36,6 @@ const getData = (filePath) => {
   return parse(fileContent, fileExtName);
 };
 
-const getDiff = (file1, file2, format) => {
-  console.log(genDiff(compare(getData(file1), getData(file2)), format));
-  return (genDiff(compare(getData(file1), getData(file2)), format));
-};
+const getDiff = (file1, file2, format) => ast(compare(getData(file1), getData(file2)), format);
 
 export default getDiff;
