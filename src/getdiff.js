@@ -36,6 +36,6 @@ const getData = (filePath) => {
   return parse(fileContent, fileExtName);
 };
 
-const getDiff = (file1, file2, format) => ast(compare(getData(file1), getData(file2)), format);
+const getDiff = (file1, file2, format = 'stylish') => ast(compare(getData(file1), getData(file2)), format);
 
 export default getDiff;

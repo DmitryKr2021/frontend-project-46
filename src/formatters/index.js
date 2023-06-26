@@ -5,7 +5,8 @@ const ast = (filesDif, formatType) => {
   switch (formatType) {
     case 'plain': return (plain(filesDif));
     case 'json': return (JSON.stringify(filesDif));
-    default: return (stylish(filesDif));
+    case 'stylish': return (stylish(filesDif));
+    default: throw new Error(`Unknown format: '${formatType}'!`);
   }
 };
 
